@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <!--<resultMap id="result" type="Employee">
+        <id property="id" column="eid"/>
+        <result property="name" column="ename"/>
+        <result property="password" column="password"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <association property="department" javaType="Department">
+            <id property="id" column="did"/>
+            <result property="name" column="dname"/>
+
+            private String id;
+    private String title;
+    private Double score;
+    private String author;
+    private String broadcast;
+    private Integer count;
+    private String brief;
+    private String cover_img;
+    private Date pub_date;
+        </association>
+
+
+    </resultMap>-->
+    <select id="selectAllAlbum" resultType="Album">
+        select id ,title ,score ,author ,broadcast ,count ,brief ,cover_img ,pub_date
+             from c_album limit ${page},#{rows}
+    </select>
+    <select id="totalCount" resultType="int">
+        select count(*) from c_album
+    </select>
+    <insert id="save" parameterType="Album">
+          insert into c_album(id ,title ,score ,author ,broadcast ,count ,brief ,cover_img ,pub_date)
+              value(#{id},#{title},#{score},#{author},#{broadcast},#{count},#{brief},#{cover_img},#{pub_date})
+    </insert>
+    <!--<update id="update">
+        update d_emp
+        <set>
+            <if test="name!==null">
+                name=#{name}
+            </if>
+            <if test="password!=null">
+                password=#{password}
+            </if>
+            <if test="age!=null">
+                age=#{age}
+            </if>
+            <if test="sex!=null">
+                sex=#{sex}
+            </if>
+            <if test="department.id!=null">
+                did=#{department.id}
+            </if>
+        select id ,title ,score ,author ,broadcast ,count ,brief ,cover_img ,pub_date
+        </set>
+        where id=#{id}
+    </update>-->
+    <update id="update">
+        update c_album
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="score!=null">
+                score=#{score},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="broadcast!=null">
+                broadcast=#{broadcast},
+            </if>
+            <if test="count!=null">
+                count=#{count}
+            </if>
+            <if test="brief!=null">
+                brief=#{brief},
+            </if>
+            <if test="cover_img!=null">
+                cover_img=#{cover_img},
+            </if>
+            <if test="pub_date!=null">
+                pub_date=#{pub_date}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+          delete from c_album where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ArticleDao">
+    <!--<resultMap id="result" type="Employee">
+        <id property="id" column="eid"/>
+        <result property="name" column="ename"/>
+        <result property="password" column="password"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <association property="department" javaType="Department">
+            <id property="id" column="did"/>
+            <result property="name" column="dname"/>
+        </association>
+    </resultMap>-->
+    <select id="selectAllArticle" resultType="Article">
+        select id ,title ,insert_img ,content ,up_date ,guruId
+            from c_article limit ${page},#{rows}
+    </select>
+    <select id="totalCount" resultType="int">
+        select count(*) from c_article
+    </select>
+    <insert id="save" parameterType="Article">
+          insert into c_article(id ,title ,insert_img ,content ,up_date ,guruId)
+              value(#{id},#{title},#{insert_img},#{content},#{up_date},#{guruId})
+    </insert>
+
+    <update id="update">
+        update c_article
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="insert_img!=null">
+                insert_img=#{insert_img},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date},
+            </if>
+            <if test="guruId!=null">
+                guruId=#{guruId}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+          delete from c_article where id=#{id}
+    </delete>
+</mapper>
+
+
+        <!--<update id="update">
+                update d_emp
+                <set>
+                    <if test="name!==null">
+                        name=#{name}
+                    </if>
+                    <if test="password!=null">
+                        password=#{password}
+                    </if>
+                    <if test="age!=null">
+                        age=#{age}
+                    </if>
+                    <if test="sex!=null">
+                        sex=#{sex}
+                    </if>
+                    <if test="department.id!=null">
+                        did=#{department.id}
+                    </if>
+
+                </set>
+                where id=#{id}
+            </update>-->

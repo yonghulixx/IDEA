@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ChapterDao">
+    <!--<resultMap id="result" type="Employee">
+        <id property="id" column="eid"/>
+        <result property="name" column="ename"/>
+        <result property="password" column="password"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <association property="department" javaType="Department">
+            <id property="id" column="did"/>
+            <result property="name" column="dname"/>
+        </association>
+
+       id,url,size,duration,up_date,album_id
+    </resultMap>-->
+
+
+    <select id="selectAllChapter" resultType="Chapter">
+        select id,url,size,duration,up_date,album_id from c_chapter where album_id=#{albumId} limit ${page},#{rows}
+    </select>
+    <select id="totalCount" resultType="int">
+        select count(*) from c_chapter
+    </select>
+    <insert id="save" parameterType="Chapter">
+          insert into c_chapter(id,url,size,duration,up_date,album_id) value(#{id},#{url},#{size},#{duration},#{up_date},#{album_id})
+    </insert>
+    <!--<update id="update">
+        update d_emp
+        <set>
+            <if test="name!==null">
+                name=#{name}
+            </if>
+            <if test="password!=null">
+                password=#{password}
+            </if>
+            <if test="age!=null">
+                age=#{age}
+            </if>
+            <if test="sex!=null">
+                sex=#{sex}
+            </if>
+            <if test="department.id!=null">
+                did=#{department.id}
+            </if>
+
+        </set>
+        where id=#{id}id,url,size,duration,up_date,album_id
+    </update>-->
+    <update id="update">
+        update c_chapter
+        <trim prefix="set" suffixOverrides=",">
+            <if test="url!=null">
+                url=#{url},
+            </if>
+            <if test="size!=null">
+                size=#{size},
+            </if>
+            <if test="duration!=null">
+                duration=#{duration},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date},
+            </if>
+            <if test="album_id!=null">
+                album_id=#{album_id}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+          delete from c_chapter where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.BannerDao">
+    <!--<resultMap id="result" type="Banner">
+        <id property="id" column="eid"/>
+        <result property="name" column="ename"/>
+        <result property="password" column="password"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <association property="department" javaType="Department">
+            <id property="id" column="did"/>
+            <result property="name" column="dname"/>queryByPage
+        </association>selectAllBanner
+    </resultMap>-->
+    <select id="selectAllBanner" resultType="Banner">
+        select id, title,img_path,description,status,up_date from c_banner
+                limit ${(page-1)*rows},#{rows}
+    </select>
+    <select id="totalCount" resultType="int">
+        select count(*) from c_banner
+    </select>
+    <insert id="save" parameterType="Banner">
+          insert into c_banner(id, title,img_path,description,status,up_date) value(#{id},#{title},#{img_path},#{description},#{status},#{up_date})
+    </insert>
+    <!--<update id="update">
+        update d_emp
+        <set>
+            <if test="name!==null">
+                name=#{name}
+            </if>
+            <if test="password!=null">
+                password=#{password}
+            </if>
+            <if test="age!=null">
+                age=#{age}
+            </if>
+            <if test="sex!=null">
+                sex=#{sex}
+            </if>
+            <if test="department.id!=null">
+                did=#{department.id}
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>-->
+    <update id="update">
+        update c_banner
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="img_path!=null">
+                img_path=#{img_path},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+          delete from c_banner where id=#{id}
+    </delete>
+</mapper>
